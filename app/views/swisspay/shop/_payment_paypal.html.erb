@@ -1,0 +1,38 @@
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<div id="paypal-button"></div>
+
+<script>
+    paypal.Button.render({    
+        env: 'sandbox', // Optional: specify 'sandbox' environment
+        locale: 'de_DE',
+
+        style: {
+          size: 'small',
+          color: 'blue',  // gold, blue, silver
+          shape: 'rect',  // pill, rect
+          label: 'checkout'
+        },
+
+        payment: function(resolve, reject) {
+          var CREATE_PAYMENT_URL = '<%= shop_paypal_path(step: 'create_payment').html_safe %>';
+                
+          return paypal.request.post(CREATE_PAYMENT_URL)
+              .then(function(data) { resolve(data.paymentID); })
+              .catch(function(err) { reject(err); });
+        },
+
+        onAuthorize: function(data, actions) {
+          // Note: you can display a confirmation page before executing
+            
+          var EXECUTE_PAYMENT_URL = '<%= shop_paypal_path(step: 'execute_payment').html_safe %>';
+
+          return paypal.request.post(EXECUTE_PAYMENT_URL,
+                  { paymentID: data.paymentID, payerID: data.payerID })
+                  
+              .then(function(data) { window.location.href = data.url })
+              .catch(function(err) { console.log(err); });
+        }
+            
+    }, '#paypal-button');
+</script>

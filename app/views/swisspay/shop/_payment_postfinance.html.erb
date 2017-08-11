@@ -1,0 +1,12 @@
+<%= form_tag postfinance_payment_processing_url do %>
+
+  <% form_data = Swisspay::Postfinance.form_data(request.base_url, identifier, amount, current_user) %>
+
+  <% form_data.each do |name, value| %>
+    <%= hidden_field_tag(name, value) %>
+  <% end %>
+
+  <%= hidden_field_tag(:SHASIGN, Swisspay::Postfinance.generate_signature(form_data)) %>
+
+  <%= submit_tag t('payment.postcard'), class: 'button' %>
+<% end %>
