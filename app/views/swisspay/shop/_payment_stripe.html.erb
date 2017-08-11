@@ -1,0 +1,55 @@
+<%= form_tag Swisspay::Engine.routes.url_helpers.stripe_path(identifier: identifier) do %>
+  
+  <script src="https://checkout.stripe.com/checkout.js"></script>
+
+  <%= submit_tag t('payment.creditcard'), class: 'button', id: 'stripe-button' %>
+
+  <script>
+    var handler = StripeCheckout.configure({
+      key: '<%= Swisspay.configuration.stripe[:public_key] %>',
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        $.ajax({
+          type: 'POST',
+          url: '<%= Swisspay::Engine.routes.url_helpers.stripe_path(identifier: identifier) %>',
+          data: {
+            stripeEmail: token.email,
+            stripeToken: token.id
+          },
+          success: function(response) {
+            console.log('successful payment: ', response);
+          },
+          error: function(response) {
+            console.log('error payment: ', response);
+          }
+        })
+      }
+    });
+
+    document.getElementById('stripe-button').addEventListener('click', function(e) {
+      // Open Checkout with further options:
+      handler.open({
+        //image: '<%= asset_path('trm.jpg') %>',
+        name: '<%= Swisspay.configuration.vendor_name %>',
+        description: '<%= Swisspay.configuration.description %>',
+        amount: <%= amount %>,
+        //locale: 'auto',
+        //zipCode: false,
+        //billingAddress: false,
+        currency: 'CHF',
+        //panelLabel: '<%= t('stripe.popup_button_label') %>',
+        //shippingAddress: false,
+        //email: '<%= current_user.email %>',
+        //allowRememberMe: true,
+        //bitcoin: false
+      });
+      e.preventDefault();
+    });
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function() {
+      handler.close();
+    });
+  </script>
+<% end %>
