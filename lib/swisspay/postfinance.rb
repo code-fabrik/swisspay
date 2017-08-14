@@ -1,22 +1,22 @@
 module Swisspay
   class Postfinance
-    def self.form_data(base_url, identifier, amount, current_user)
+    def self.form_data(base_url, identifier, amount, options)
       { 
         ACCEPTURL: Swisspay::Engine.routes.url_helpers.accept_postfinance_url(host: base_url, identifier: identifier),
         AMOUNT: amount,
         CANCELURL: Swisspay::Engine.routes.url_helpers.cancel_postfinance_url(host: base_url, identifier: identifier),
-        #CN: current_user.full_name,
+        CN: options[:buyer][:name],
         CURRENCY: 'CHF',
         DECLINEURL: Swisspay::Engine.routes.url_helpers.decline_postfinance_url(host: base_url, identifier: identifier),
-        #EMAIL: current_user.email,
+        EMAIL: options[:buyer][:email],
         EXCEPTIONURL: Swisspay::Engine.routes.url_helpers.exception_postfinance_url(host: base_url, identifier: identifier),
         LANGUAGE: 'de_DE',
-        ORDERID: Swisspay.configuration.description + (100 + rand(899)).to_s,
-        #OWNERADDRESS: current_user.street,
-        #OWNERCTY: 'Schweiz',
+        ORDERID: options[:order_id].to_s + Swisspay.order_id_suffix,
+        OWNERADDRESS: options[:buyer][:street],
+        OWNERCTY: options[:buyer][:country],
         #OWNERTELNO: '031 331 83 83',
-        #OWNERTOWN: current_user.city,
-        #OWNERZIP: current_user.zip,
+        OWNERTOWN: options[:buyer][:city],
+        OWNERZIP: options[:buyer][:zip],
         PSPID: Swisspay.configuration.postfinance[:pspid]
       }
     end
@@ -37,7 +37,7 @@ module Swisspay
 
     def self.sha_for(data)
       secret_sig = Swisspay.configuration.postfinance[:sha_in_pswd]
-      string = data.map { |k, v| "#{k}=#{v}" }.join(secret_sig)
+      string = data.reject { |k,v| v.nil? }.map { |k, v| "#{k}=#{v}" }.join(secret_sig)
       string << secret_sig
       digest = Digest::SHA1.hexdigest(string)
       digest

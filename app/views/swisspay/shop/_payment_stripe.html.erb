@@ -30,17 +30,17 @@
     document.getElementById('stripe-button').addEventListener('click', function(e) {
       // Open Checkout with further options:
       handler.open({
-        //image: '<%= asset_path('trm.jpg') %>',
+        image: '<%= options[:image] %>',
         name: '<%= Swisspay.configuration.vendor_name %>',
-        description: '<%= Swisspay.configuration.description %>',
+        description: '<%= options[:order_id].to_s + Swisspay.order_id_suffix %>',
         amount: <%= amount %>,
-        //locale: 'auto',
+        locale: 'auto',
         //zipCode: false,
         //billingAddress: false,
         currency: 'CHF',
         //panelLabel: '<%= t('stripe.popup_button_label') %>',
         //shippingAddress: false,
-        //email: '<%= current_user.email %>',
+        email: '<%= options[:buyer][:email] %>',
         //allowRememberMe: true,
         //bitcoin: false
       });
