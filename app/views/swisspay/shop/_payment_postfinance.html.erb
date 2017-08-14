@@ -1,6 +1,6 @@
 <%= form_tag postfinance_payment_processing_url do %>
 
-  <% form_data = Swisspay::Postfinance.form_data(request.base_url, identifier, amount, current_user) %>
+  <% form_data = Swisspay::Postfinance.form_data(base_url, identifier, amount, options) %>
 
   <% form_data.each do |name, value| %>
     <%= hidden_field_tag(name, value) %>
