@@ -11,7 +11,7 @@ module Swisspay
         EMAIL: options[:buyer][:email],
         EXCEPTIONURL: Swisspay::Engine.routes.url_helpers.exception_postfinance_url(host: base_url, identifier: identifier),
         LANGUAGE: 'de_DE',
-        ORDERID: options[:order_id].to_s + Swisspay.order_id_suffix,
+        ORDERID: identifier,
         OWNERADDRESS: options[:buyer][:street],
         OWNERCTY: options[:buyer][:country],
         #OWNERTELNO: '031 331 83 83',

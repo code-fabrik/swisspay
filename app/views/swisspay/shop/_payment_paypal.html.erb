@@ -6,6 +6,7 @@
     paypal.Button.render({    
         env: 'sandbox', // Optional: specify 'sandbox' environment
         locale: 'de_DE',
+        commit: true,
 
         style: {
           size: 'small',
@@ -15,8 +16,12 @@
         },
 
         payment: function(resolve, reject) {
-          var CREATE_PAYMENT_URL = '<%= shop_paypal_path(step: 'create_payment').html_safe %>';
-                
+          // call Rails server
+          var CREATE_PAYMENT_URL = '<%= Swisspay::Engine.routes.url_helpers.paypal_path(step: 'create_payment').html_safe %>';
+
+          // passes the paymentID from the JSON response to the checkout.js script
+          // The Express Checkout flow is launched in a lightbox on your page and gets
+          // the buyer's approval for payment.
           return paypal.request.post(CREATE_PAYMENT_URL)
               .then(function(data) { resolve(data.paymentID); })
               .catch(function(err) { reject(err); });
@@ -24,15 +29,19 @@
 
         onAuthorize: function(data, actions) {
           // Note: you can display a confirmation page before executing
-            
-          var EXECUTE_PAYMENT_URL = '<%= shop_paypal_path(step: 'execute_payment').html_safe %>';
 
+          var EXECUTE_PAYMENT_URL = '<%= Swisspay::Engine.routes.url_helpers.paypal_path(step: 'execute_payment').html_safe %>';
+
+          // When the buyer approves the payment, the checkout.js script calls your onAuthorize call back.
           return paypal.request.post(EXECUTE_PAYMENT_URL,
                   { paymentID: data.paymentID, payerID: data.payerID })
                   
-              .then(function(data) { window.location.href = data.url })
+              .then(function(data) { console.log(data); console.log(this); })
               .catch(function(err) { console.log(err); });
+        },
+
+        onCancel: function(data, actions) {
+            return actions.redirect();
         }
-            
     }, '#paypal-button');
 </script>
