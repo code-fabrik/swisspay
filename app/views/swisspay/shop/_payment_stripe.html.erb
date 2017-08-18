@@ -32,7 +32,7 @@
       handler.open({
         image: '<%= options[:image] %>',
         name: '<%= Swisspay.configuration.vendor_name %>',
-        description: '<%= options[:order_id].to_s + Swisspay.order_id_suffix %>',
+        description: '<%= options[:order_id].to_s %>',
         amount: <%= amount %>,
         locale: 'auto',
         //zipCode: false,
