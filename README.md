@@ -1,22 +1,25 @@
 # Swisspay
 
+Rails integration for Swiss payment service providers.
+
 Swisspay is a gem that helps you accept payments using various Payment Processing Providers (PSPs). At the moment, it includes support vor Paypal, Stripe and Postfinance (card and e-finance) payments.
+
+It features a simple integration but stays flexible to fit your needs.
+
+**Note: this is a non-free gem. Please use the contact form at [Codefabrik](https://code-fabrik.ch) to get a quote and receive the credentials for installing the gem.**
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'swisspay'
+source 'https://USERNAME:PASSWORD@gems.code-fabrik.ch' do
+  gem 'swisspay'
+end
 ```
 
 And then execute:
 ```bash
 $ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install swisspay
 ```
 
 ## Usage
@@ -77,9 +80,14 @@ Swisspay.configure do |config|
 end
 ```
 
-## Contributing
-Contribution directions go here.
-
 ## License
 
 All rights reserved.
+
+## Terms of Service
+
+Usage of this gem is bound to the following TOS.
+
+1. Licences are granted for a single application. One application may be installed on multiple machines, for instance in a development setup and multistage / CI deploy.
+2. Licences are granted for an unlimited time.
+3. This gem's source code must not be published or modified.
