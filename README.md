@@ -33,7 +33,7 @@ rails generate migration AddStripeCustomerIdToUsers stripe_customer_id:string
 Embed the payment partial on your site:
 
 ```erb
-<%= swisspay_payment_form(@order.id, (@order.total_price * 100).to_i, {
+<%= swisspay_payment_form(@order.id, 200, {
   order_id: @order.id,
   buyer: {
     name: current_user.full_name,
@@ -43,7 +43,7 @@ Embed the payment partial on your site:
     zip: current_user.zip,
     city: current_user.city
   },
-  image: asset_path('trm.jpg')
+  image: asset_path('my_logo.jpg')
 }) %>
 ```
 
@@ -69,13 +69,13 @@ Swisspay.configure do |config|
   config.vendor_name = 'TRM Schweiz'
 
   config.stripe = {
-    secret_key: "sk_test_xvfPKPHPv2hSbeoj5OqakPAg",
-    public_key: "pk_test_wIRpM69mpnv0qPesaIf3s2v2"
+    secret_key: "sk_test_78nv4zna03vnttab8nw93nsv",
+    public_key: "pk_test_nsven89s4nv3497vts9svfgg"
   }
 
   config.postfinance = {
-    pspid: 'trmschweizTEST',
-    sha_in_pswd: 'Mysecretsig1875!?'
+    pspid: 'mytestPSPID',
+    sha_in_pswd: 'dkjfhiurnviyfhjk'
   }
 end
 ```
