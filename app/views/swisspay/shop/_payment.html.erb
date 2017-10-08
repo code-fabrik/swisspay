@@ -9,3 +9,7 @@
 <% if Swisspay.configuration.postfinance? %>
   <%= render partial: 'swisspay/shop/payment_postfinance', locals: { base_url: base_url, identifier: identifier, amount: amount, options: options } %>
 <% end %>
+
+<% if Swisspay.configuration.saferpay? %>
+  <%= render partial: 'swisspay/shop/payment_saferpay', locals: { base_url: base_url, identifier: identifier, amount: amount, options: options } %>
+<% end %>

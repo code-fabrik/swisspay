@@ -6,18 +6,13 @@ module Swisspay
     def create
       Stripe.api_key = Swisspay.configuration.stripe[:secret_key]
 
-      if current_user.stripe_customer_id.nil?
-        customer = Stripe::Customer.create(
-          email: params[:stripeEmail],
-          source: params[:stripeToken]
-        )
-
-        current_user.update(stripe_customer_id: customer.id)
-      end
-
+      customer = Stripe::Customer.create(
+        email: params[:stripeEmail],
+        source: params[:stripeToken]
+      )
 
       charge = Stripe::Charge.create(
-        customer:    current_user.stripe_customer_id,
+        customer:    customer.id,
         amount:      @amount,
         description: 'Bestellung ' + @identifier.to_s,
         currency:    'chf'

@@ -7,4 +7,10 @@ Swisspay::Engine.routes.draw do
     get :decline
     get :exception
   end
+
+  resource :saferpay, only: [] do
+    get :success
+    get :fail
+    post :start
+  end
 end

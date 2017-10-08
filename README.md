@@ -2,7 +2,7 @@
 
 Rails integration for Swiss payment service providers.
 
-Swisspay is a gem that helps you accept payments using various Payment Processing Providers (PSPs). At the moment, it includes support vor Paypal, Stripe and Postfinance (card and e-finance) payments.
+Swisspay is a gem that helps you accept payments using various Payment Processing Providers (PSPs). At the moment, it includes support vor Paypal, Stripe and Postfinance (card and e-finance) and SIX Payment Services (Saferpay) payments.
 
 It features a simple integration but stays flexible to fit your needs.
 
@@ -24,17 +24,11 @@ $ bundle
 
 ## Usage
 
-Add a `stripe_customer_id` column to your user model:
-
-```bash
-rails generate migration AddStripeCustomerIdToUsers stripe_customer_id:string
-```
-
 Embed the payment partial on your site:
 
 ```erb
 <%= swisspay_payment_form(@order.id, 200, {
-  order_id: @order.id,
+  description: @order.id,
   buyer: {
     name: current_user.full_name,
     email: current_user.email,
@@ -47,7 +41,9 @@ Embed the payment partial on your site:
 }) %>
 ```
 
-The first two parameters, `order_id` and `amount` are required. The amount must be in **Rappen**. The options are all optional.
+The first two parameters, `identifier` and `amount` are required. The amount must be in **Rappen**. The options are all optional.
+
+You can use the `identifier` parameter to keep track of the payment. The parameter you pass in here will be returned to you in the callbacks described below (still called `identifier`).
 
 Define after payment actions in the initializer, e.g. `config/initializers/swisspay.rb`:
 
@@ -76,6 +72,13 @@ Swisspay.configure do |config|
   config.postfinance = {
     pspid: 'mytestPSPID',
     sha_in_pswd: 'dkjfhiurnviyfhjk'
+  }
+
+  config.saferpay = {
+    customer_id: '123456',
+    terminal_id: '87654321',
+    api_user: 'API_123456_12345678',
+    api_pass: 'a8379a37v9a37o9yv73wvc2r9'
   }
 end
 ```
