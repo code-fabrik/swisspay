@@ -1,6 +1,7 @@
 require "swisspay/engine"
 require 'swisspay/configuration'
 require 'swisspay/postfinance'
+require 'swisspay/saferpay'
 
 module Swisspay
   class << self

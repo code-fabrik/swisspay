@@ -2,7 +2,7 @@ module Swisspay
   class Configuration
     attr_accessor :payment_success, :payment_error,
       :description, :vendor_name,
-      :stripe, :postfinance, :paypal
+      :stripe, :postfinance, :paypal, :saferpay
 
     def initialize
       @payment_success = -> { }
@@ -12,6 +12,7 @@ module Swisspay
       @stripe = {}
       @postfinance = {}
       @paypal = {}
+      @saferpay = {}
     end
 
     def stripe?
@@ -24,6 +25,10 @@ module Swisspay
 
     def postfinance?
       @postfinance != {}
+    end
+
+    def saferpay?
+      @saferpay != {}
     end
   end
 end
