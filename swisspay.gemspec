@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["lukas.diener@hotmail.com"]
   s.homepage    = "https://code-fabrik.ch"
   s.summary     = "Swiss PSP gem"
-  s.description = "Easily accept payments from different payment providers such as Stripe, Paypal and Postfinance."
+  s.description = "Easily accept payments from different payment providers such as Stripe, Paypal, Postfinance and SIX."
   s.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
