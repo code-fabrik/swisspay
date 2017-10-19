@@ -18,10 +18,10 @@ module Swisspay
         currency:    'chf'
       )
 
-      Swisspay.configuration.payment_success.call(self, main_app, @identifier)
+      Swisspay.configuration.payment_success.call(self, main_app, @identifier, :stripe)
 
     rescue Stripe::CardError => e
-      Swisspay.configuration.payment_error(self, main_app, @identifier, e.message)
+      Swisspay.configuration.payment_error(self, main_app, @identifier, :stripe, e.message)
     end
 
     private

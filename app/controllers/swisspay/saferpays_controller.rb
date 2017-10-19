@@ -8,11 +8,11 @@ module Swisspay
       valid = Swisspay::Saferpay.check_payment(identifier, token)
       Rails.logger.error "NOT PAID" if !valid
 
-      Swisspay.configuration.payment_success.call(self, main_app, @identifier)
+      Swisspay.configuration.payment_success.call(self, main_app, @identifier, :saferpay)
     end
 
     def fail
-      Swisspay.configuration.payment_error.call(self, main_app, @identifier, :fail)
+      Swisspay.configuration.payment_error.call(self, main_app, @identifier, :saferpay, :fail)
     end
 
     private

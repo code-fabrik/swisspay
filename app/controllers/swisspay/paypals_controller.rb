@@ -23,9 +23,9 @@ module Swisspay
 
     def show
       if params[:action] == 'accept'
-        Swisspay.configuration.payment_success.call(self, main_app, @identifier)
+        Swisspay.configuration.payment_success.call(self, main_app, @identifier, :paypal)
       elsif params[:action] == 'cancel'
-        Swisspay.configuration.payment_error(self, main_app, @identifier, :cancel)
+        Swisspay.configuration.payment_error(self, main_app, @identifier, :paypal, :cancel)
       end
     end
     
@@ -71,9 +71,9 @@ module Swisspay
       raise StandardError, 'IDENTIFIER MISMATCH' if @identifier != remote_identifier
 
       if payment.execute(payer_id: payer_id)
-        Swisspay.configuration.payment_success.call(self, main_app, @identifier)
+        Swisspay.configuration.payment_success.call(self, main_app, @identifier, :paypal)
       else
-        Swisspay.configuration.payment_error.call(self, main_app, @identifier, payment.error)
+        Swisspay.configuration.payment_error.call(self, main_app, @identifier, :paypal, payment.error)
       end
     end
 
