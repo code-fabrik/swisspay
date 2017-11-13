@@ -1,3 +1,5 @@
+require 'paypal-sdk-rest'
+
 module Swisspay
   class PaypalsController < ApplicationController
     protect_from_forgery :except => [:create] #Otherwise the request from PayPal wouldn't make it to the controller
