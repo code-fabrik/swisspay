@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_runtime_dependency 'rails', '~> 5.0', '>= 5.0.2'
+  s.add_runtime_dependency 'paypal-sdk-rest', '~> 1.6', '>= 1.6.0'
 end

@@ -1,6 +1,6 @@
 module Swisspay
   class SaferpaysController < ApplicationController
-    before_filter :load_session
+    before_action :load_session
     
     def success
       token = session['swisspay']['token']
