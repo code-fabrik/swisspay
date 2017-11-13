@@ -1,7 +1,7 @@
 module Swisspay
   class StripesController < ApplicationController
     protect_from_forgery except: [:create]
-    before_filter :load_session
+    before_action :load_session
     
     def create
       Stripe.api_key = Swisspay.configuration.stripe[:secret_key]

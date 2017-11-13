@@ -1,7 +1,7 @@
 module Swisspay
   class PaypalsController < ApplicationController
     protect_from_forgery :except => [:create] #Otherwise the request from PayPal wouldn't make it to the controller
-    before_filter :load_session
+    before_action :load_session
 
     include PayPal::SDK::REST
 

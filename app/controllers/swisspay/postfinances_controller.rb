@@ -1,6 +1,6 @@
 module Swisspay
   class PostfinancesController < ApplicationController
-    before_filter :load_session
+    before_action :load_session
     
     def accept
       valid = Swisspay::Postfinance.check_signature(params.except(:action, :controller))
