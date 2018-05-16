@@ -1,15 +1,15 @@
 <% if Swisspay.configuration.stripe? %>
-  <%= render partial: 'swisspay/shop/payment_stripe', locals: { identifier: identifier, amount: amount, options: options } %>
+  <%= render partial: 'swisspay/shop/payment_stripe' %>
 <% end %>
 
 <% if Swisspay.configuration.paypal? %>
-  <%= render partial: 'swisspay/shop/payment_paypal', locals: { identifier: identifier, amount: amount, options: options } %>
+  <%= render partial: 'swisspay/shop/payment_paypal' %>
 <% end %>
 
 <% if Swisspay.configuration.postfinance? %>
-  <%= render partial: 'swisspay/shop/payment_postfinance', locals: { base_url: base_url, identifier: identifier, amount: amount, options: options } %>
+  <%= render partial: 'swisspay/shop/payment_postfinance' %>
 <% end %>
 
 <% if Swisspay.configuration.saferpay? %>
-  <%= render partial: 'swisspay/shop/payment_saferpay', locals: { base_url: base_url, identifier: identifier, amount: amount, options: options } %>
+  <%= render partial: 'swisspay/shop/payment_saferpay' %>
 <% end %>
