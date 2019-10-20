@@ -2,7 +2,7 @@
   
   <script src="https://checkout.stripe.com/checkout.js"></script>
 
-  <%= submit_tag t('payment.creditcard'), options[:html] %>
+  <%= submit_tag t('payment.creditcard'), class: 'button', id: 'stripe-button' %>
 
   <script>
     var handler = StripeCheckout.configure({
@@ -27,7 +27,7 @@
       }
     });
 
-    document.getElementById('payment-button-stripe').addEventListener('click', function(e) {
+    document.getElementById('stripe-button').addEventListener('click', function(e) {
       // Open Checkout with further options:
       handler.open({
         image: '<%= options[:image] %>',
