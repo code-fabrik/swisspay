@@ -26,7 +26,9 @@ module Swisspay
     end
 
     def self.check_signature(params)
-      up_sorted = params.map{|k,v| [k.upcase, v]}.sort_by{|k,v| k}
+      upper = []
+      params.each{|k,v| upper.push([k.upcase, v])}
+      up_sorted = upper.sort_by{|k,v| k}
       shasig = up_sorted.select { |k,v| k == "SHASIGN" }.first.last.downcase
       other_params = up_sorted.reject { |k,v| k == "SHASIGN" || v == "" }
       calc_sig = self.sha_for(other_params)
