@@ -1,3 +1,6 @@
-<%= form_tag Swisspay::Engine.routes.url_helpers.saferpay_path, method: :post, enforce_utf8: false do %>
-  <%= submit_tag session[:swisspay][:labels][:saferpay] || t('payment.saferpay'), session[:swisspay][:html] %>
+<% url, token = Swisspay::Saferpay.payment_url(base_url, identifier, amount, options) %>
+<% session['swisspay']['token'] = token %>
+
+<%= form_tag url, method: :get, enforce_utf8: false do %>
+  <%= submit_tag t('payment.saferpay'), class: 'button', name: nil %>
 <% end %>

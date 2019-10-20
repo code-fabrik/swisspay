@@ -7,10 +7,9 @@ module Swisspay
     API_BASE = 'https://test.saferpay.com/api'
     PAYMENT_PAGE_INIT = '/Payment/v1/PaymentPage/Initialize'
     PAYMENT_PAGE_ASSERT = '/Payment/v1/PaymentPage/Assert'
-    PAYMENT_PAGE_CAPTURE = '/Payment/v1/Transaction/Capture'
 
-    def self.payment_url(base_url, options)
-      response = post(API_BASE + PAYMENT_PAGE_INIT, payment_page_init_data(base_url, options))
+    def self.payment_url(base_url, identifier, amount, options)
+      response = post(API_BASE + PAYMENT_PAGE_INIT, payment_page_init_data(base_url, identifier, amount, options))
       data = JSON.parse(response.delete("\\")[1..-2])
       token = data['Token']
       redirect_url = data['RedirectUrl']
@@ -20,37 +19,27 @@ module Swisspay
     def self.check_payment(identifier, token)
       response = post(API_BASE + PAYMENT_PAGE_ASSERT, payment_page_assert_data(identifier, token))
       data = JSON.parse(response.delete("\\")[1..-2])
-      result = data["Transaction"]["Status"] == 'AUTHORIZED'
-      trx_id = data["Transaction"]["Id"]
-      amount = data["Transaction"]["Amount"]["Value"]
-
-      [result, trx_id, amount]
-    end
-
-    def self.capture(identifier, transaction_id, amount)
-      response = post(API_BASE + PAYMENT_PAGE_CAPTURE, payment_page_capture_data(identifier, transaction_id, amount))
-      data = JSON.parse(response.delete("\\")[1..-2])
-      return data["OrderId"]
+      data["Transaction"]["Status"] == 'AUTHORIZED'
     end
 
     private
 
-    def self.payment_page_init_data(base_url, options)
+    def self.payment_page_init_data(base_url, identifier, amount, options)
       {
         "RequestHeader": {
           "SpecVersion": "1.6",
           "CustomerId": Swisspay.configuration.saferpay[:customer_id],
-          "RequestId": options['identifier'],
+          "RequestId": identifier,
           "RetryIndicator": 0
         },
         "TerminalId": Swisspay.configuration.saferpay[:terminal_id],
         "Payment": {
           "Amount": {
-            "Value": options['amount'],
+            "Value": amount,
             "CurrencyCode": "CHF"
           },
-          "OrderId": options['identifier'],
-          "Description": options['description']
+          "OrderId": identifier,
+          "Description": options[:description]
         },
         "ReturnUrls": {
           "Success": Swisspay::Engine.routes.url_helpers.success_saferpay_url(host: base_url),
@@ -68,24 +57,6 @@ module Swisspay
           "RetryIndicator": 0
         },
         "Token": token
-      }
-    end
-
-    def self.payment_page_capture_data(identifier, transaction_id, amount)
-      {
-        "RequestHeader": {
-          "SpecVersion": "1.6",
-          "CustomerId": Swisspay.configuration.saferpay[:customer_id],
-          "RequestId": identifier,
-          "RetryIndicator": 0
-        },
-        "TransactionReference": {
-          "TransactionId": transaction_id
-        },
-        "Amount": {
-          "Value": amount,
-          "CurrencyCode": 'CHF'
-        }
       }
     end
 
