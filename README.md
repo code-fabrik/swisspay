@@ -6,15 +6,11 @@ Swisspay is a gem that helps you accept payments using various Payment Processin
 
 It features a simple integration but stays flexible to fit your needs.
 
-**Note: this is a non-free gem. Please use the contact form at [Codefabrik](https://code-fabrik.ch) to get a quote and receive the credentials for installing the gem.**
-
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-source 'https://USERNAME:PASSWORD@gems.code-fabrik.ch' do
-  gem 'swisspay'
-end
+gem 'swisspay'
 ```
 
 And then execute:
