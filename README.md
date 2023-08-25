@@ -1,5 +1,22 @@
 # Swisspay
 
+      _____  ______ _____  _____  ______ _____       _______ ______ _____  
+     |  __ \|  ____|  __ \|  __ \|  ____/ ____|   /\|__   __|  ____|  __ \ 
+     | |  | | |__  | |__) | |__) | |__ | |       /  \  | |  | |__  | |  | |
+     | |  | |  __| |  ___/|  _  /|  __|| |      / /\ \ | |  |  __| | |  | |
+     | |__| | |____| |    | | \ \| |___| |____ / ____ \| |  | |____| |__| |
+     |_____/|______|_|    |_|  \_\______\_____/_/    \_\_|  |______|_____/ 
+                                                                       
+### Please migrate to https://github.com/code-fabrik/postfinancecheckout-rails.
+
+      _____  ______ _____  _____  ______ _____       _______ ______ _____  
+     |  __ \|  ____|  __ \|  __ \|  ____/ ____|   /\|__   __|  ____|  __ \ 
+     | |  | | |__  | |__) | |__) | |__ | |       /  \  | |  | |__  | |  | |
+     | |  | |  __| |  ___/|  _  /|  __|| |      / /\ \ | |  |  __| | |  | |
+     | |__| | |____| |    | | \ \| |___| |____ / ____ \| |  | |____| |__| |
+     |_____/|______|_|    |_|  \_\______\_____/_/    \_\_|  |______|_____/ 
+
+
 Rails integration for Swiss payment service providers.
 
 Swisspay is a gem that helps you accept payments using various Payment Processing Providers (PSPs). At the moment, it includes support vor Paypal, Stripe and Postfinance (card and e-finance) and SIX Payment Services (Saferpay) payments.
